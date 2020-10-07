@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+ {% block title %} تسجيل إمتحان {% endblock title %}
+{% block content %}
+<div class="hero-area section">
+
+			<!-- Backgound Image -->
+			<div class="bg-image bg-parallax overlay" style="background-image:url(../../../static/images/exam.jpg)"></div>
+			<!-- /Backgound Image -->
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 text-center">
+						<ul class="hero-area-tree">
+							<li><a href="{% url 'home-page' %}">الرئيسية</a></li>
+							<li>مدير النظام</li>
+                            <li>تسجيل الإمتحان</li>
+						</ul>
+						<h1 class="white-text">تسجيل إمتحان جديد</h1>
+				<form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <select class="input" name="cat" id="cat">
+                                    {% for exam in exams %}
+                                 <option class="input" value="{{ exam.pk }}"> {{ exam.name }}</option>
+                                    {% endfor %}
+                            </select>
+                                <input class="input white-text" type="text" name="question" placeholder="السؤال">
+                                <input class="input white-text" type="number" name="t_result" placeholder="الدرجه">
+								<input class="main-button icon-button pull-right" type="submit" name="btn_submit"/>
+							</form>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /Hero-area -->
+
+{% endblock content %}

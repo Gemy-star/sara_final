@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %} تسجيل الدخول {% endblock title %}
+
+{% block body %}
+     <div class="slider-area2" style="background-image: url(../images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2 class="body-font">تسجيل الدخول</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title body-font">تسجيل الدخول</h2>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form"  method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid body-font" name="national_id" id="email" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'الرقم القومى'" placeholder="الرقم القومى">
+                                    </div>
+                                </div>
+
+                                     <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid body-font" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'كلمة السر'" placeholder="كلمة السر">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <input type="submit" class="btn body-font" value="تسجيل الدخول" name="submit"/>
+                            </div>
+                        </form>
+                          {% if messages %}
+                    <div class="row">
+                         <div class="col-sm-6 md-12">
+                            {% for message in messages %}
+                                <div class="alert alert-light"><p>{{ message }}</p></div>
+                             {% endfor %}
+                         </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-12">
+                        <h2 class="contact-title body-font">إنضم إلينا </h2>
+                    </div>
+                         <div class="form-group mt-3">
+                             <a href="{% url 'register' %}" class="btn body-font"  id="register">إنشاء حساب</a>
+                            </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="media contact-info">
+                            <span class="fa fa-map"></span>
+                            <div class="media-body">
+                                <h3 class="body-font">مصر</h3>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="fa fa-mobile"></span>
+                            <div class="media-body">
+                                <h3 class="body-font">+966 54 985 8385</h3>
+                                <p class="body-font"> مركز التحول الرقمى</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="fa fa-envelope"></span>
+                            <div class="media-body">
+                                <h3 class="body-font">info@dtc.com</h3>
+                                <p class="body-font">إستفر عن كل ما تريد</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock body %}

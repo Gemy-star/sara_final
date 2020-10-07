@@ -1,0 +1,32 @@
+{% extends 'main2.html' %}
+{% load static %}
+ {% block title %} مدير النظام {% endblock title %}
+{% block content %}
+<div class="hero-area section">
+
+			<!-- Backgound Image -->
+			<div class="bg-image bg-parallax overlay" style="background-image:url(../../../static/images/exam.jpg)"></div>
+			<!-- /Backgound Image -->
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 text-center">
+						<ul class="hero-area-tree">
+							<li><a href="{% url 'home-page' %}">الرئيسية</a></li>
+							<li>مدير النظام</li>
+						</ul>
+						<h1 class="white-text">أهلا بك - مدير النظام</h1>
+							<form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <a class="main-button icon-button sara"  href="{% url 'register' %}">تسجيل الدخول</a>
+                                <a class="main-button icon-button sara"  href="{% url 'register' %}">تسجيل امتحان</a>
+							</form>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /Hero-area -->
+
+{% endblock content %}

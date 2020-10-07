@@ -1,0 +1,33 @@
+{% extends 'main2.html' %}
+{% load static %}
+ {% block title %}منظومة الإمتحانات {% endblock title %}
+{% block content %}
+<div class="hero-area section">
+
+			<!-- Backgound Image -->
+			<div class="bg-image bg-parallax overlay" style="background-image:url(../../../static/images/exam.jpg)"></div>
+			<!-- /Backgound Image -->
+
+			<div class="container">
+				<form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <select class="input" name="opt" id="opt">
+                                 <option class="input" value="1"> CCNA</option>
+                                 <option class="input" value="0">CCNP</option>
+                                    <option class="input" value="0">IOT</option>
+                                    <option class="input" value="0">.NET</option>
+                                    <option class="input" value="0">Python</option>
+                            </select>
+
+
+
+<div class="col-md-12">
+
+
+								<div class="post-pagination">
+									<a  href="{% url 'projects-page' %}">العودة</a>
+
+									<a href="{% url 'projects2-page' %}">التالي</a>
+								</div>
+							</div>
+{% endblock content %}

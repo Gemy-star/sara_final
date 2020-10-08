@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 from users.models import User
 
 
@@ -53,6 +55,9 @@ class FinalResult(models.Model):
 
     def __str__(self):
         return self.user.first_name
+
+    def get_absolute_url(self):
+        return reverse('exam-result-page', args=[str(self.pk)])
 
     class Meta:
         verbose_name = 'FinalResult'

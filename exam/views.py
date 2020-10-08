@@ -1,5 +1,7 @@
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
+from django.urls import reverse
+
 from exam.models import Exam, Category, Question, FinalResult
 from django.contrib import messages
 from users.models import User
@@ -79,12 +81,31 @@ def exam_list_user(request, pk):
 
 def question_list_user(request, pk):
     ans = dict()
+    result = dict()
+    degree = 0
     exam = Exam.objects.get(pk=pk)
     question = Question.objects.filter(Exam=exam)
+    user = request.user
+    for ques in question:
+        result[ques.question] = ques.answer
     if request.method == "POST":
         for q in question:
             answers = request.POST.get('questions' + str(q.pk))
             ans[q.question] = answers
+        for key in ans:
+            if ans[key] == result[key]:
+                degree += 10
+        r = FinalResult(user=user, exam=exam, result=degree)
+        if r is not None:
+            return redirect('exam-result-page', r.pk)
+        else:
+            messages.info(request, 'Data is not valid')
 
     context = {"questions": question, "exam": exam}
     return render(request, 'exam/question_list.html', context=context)
+
+
+def result_exam_list(request, pk):
+    final_result = FinalResult.objects.get(pk=pk)
+    content = {"result": final_result}
+    return render(request, 'exam/result_exam_list.html', context=content)

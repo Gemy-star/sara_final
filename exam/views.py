@@ -78,12 +78,13 @@ def exam_list_user(request, pk):
 
 
 def question_list_user(request, pk):
+    ans = dict()
     exam = Exam.objects.get(pk=pk)
     question = Question.objects.filter(Exam=exam)
     if request.method == "POST":
-        answers = request.POST.get('questions')
+        for q in question:
+            answers = request.POST.get('questions' + str(q.pk))
+            ans[q.question] = answers
 
     context = {"questions": question, "exam": exam}
     return render(request, 'exam/question_list.html', context=context)
-
-

@@ -30,8 +30,8 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="questions" class="body-font">{{ question.name }}</label>
-                                        <input class="form-control valid"  name="questions" id="#questions" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'إكتب الأجابه'" placeholder="إكتب الأجابه">
+                                        <label for="questions" class="body-font">{{ question.question }}</label>
+                                        <input class="form-control valid"  name="questions{{ question.pk }}" id="#questions" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'إكتب الأجابه'" placeholder="إكتب الأجابه">
                                     </div>
                                 </div>
                             </div>

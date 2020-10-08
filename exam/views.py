@@ -97,7 +97,7 @@ def question_list_user(request, pk):
                 degree += 10
         r = FinalResult(user=user, exam=exam, result=degree)
         if r is not None:
-            return redirect('exam-result-page', r.pk)
+            return render(request, 'exam/result_exam_list.html', context={"result": r})
         else:
             messages.info(request, 'Data is not valid')
 

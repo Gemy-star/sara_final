@@ -49,9 +49,9 @@ class Question(models.Model):
 
 
 class FinalResult(models.Model):
+    result = models.IntegerField(verbose_name='النتيجه النهائيه')
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    result = models.IntegerField(verbose_name='النتيجه النهائيه')
 
     def __str__(self):
         return self.user.first_name

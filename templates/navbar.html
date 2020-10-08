@@ -26,6 +26,9 @@
                                         {% if request.user.user_type !=  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
 										<li><a href="{% url 'register' %}" class="body-font" style="color: white;" >إنشاء حساب</a> </li>
                                         {% endif %}
+                                    {% if request.user.user_type ==  2 %}
+										<li><a href="{% url 'cat-list-page' %}" class="body-font" style="color: white;">الأمتحان</a></li>
+                                        {% endif %}
                                      {% if request.user.user_type ==  1 or  request.user.user_type ==  2 or request.user.user_type ==  3 %}
 										<li><a href="{% url 'user-profile' %}" class="body-font" style="color: white;">الملف الشخصى</a></li>
                                         {% endif %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Exam {%  endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2 class="body-font">الأمتحانات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title">إنشاء سؤال</h2>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form"  enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="default-select" id="default-select">
+                                        <select name="qtype">
+												<option value="1">إختيار من متعدد</option>
+                                            <option value="2">مقالى</option>
+
+                                        </select>
+
+								</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="question" id="question" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'السؤال'" placeholder="السؤال">
+                                    </div>
+                                </div>
+                               <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="question_photo" id="question_photo" type="file" onfocus="this.placeholder = ''" onblur="this.placeholder = 'صورة السؤال'" placeholder="صورة السؤال">
+                                    </div>
+                                </div>
+                                     <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="answer" id="answer" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'الأجابه'" placeholder="الأجابه ">
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="default-select" id="default-select">
+                                        <select name="cat">
+                                        {% for cat in cats %}
+												<option value="{{cat.pk }}">{{ cat.name }}</option>
+                                        {% endfor %}
+                                        </select>
+
+								</div>
+                                </div>
+                              <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="default-select" id="default-select">
+                                        <select name="exams">
+                                        {% for exam in exams %}
+												<option value="{{exam.pk }}">{{ exam.name }}</option>
+                                        {% endfor %}
+                                        </select>
+
+								</div>
+                                </div>
+                            <div class="form-group mt-3">
+                                <input type="submit" class="btn" value="إنشاء إمتحان" name="submit"/>
+                            </div>
+                        </form>
+                    </div>
+                    {% if messages %}
+                    <div class="row">
+                         <div class="col-sm-6 md-12">
+                            {% for message in messages %}
+                                <div class="alert alert-light"><p>{{ message }}</p></div>
+                             {% endfor %}
+                         </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+{% endblock body %}

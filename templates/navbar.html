@@ -27,20 +27,17 @@
 										<li><a href="{% url 'register' %}" class="body-font" >إنشاء حساب</a> </li>
                                         {% endif %}
                                      {% if request.user.user_type ==  1 or  request.user.user_type ==  2 or request.user.user_type ==  3 %}
-										<li><a href="{% url 'user-detail' %}" class="body-font">الملف الشخصى</a></li>
+										<li><a href="{% url 'user-profile' %}" class="body-font">الملف الشخصى</a></li>
                                         {% endif %}
-                                    {% if request.user.user_type != 3 %}
+                                    {% if request.user.user_type == 1 %}
 										<li>
-											<a href="#" class="body-font">الخدمات</a>
+											<a href="#" class="body-font">أدوات التحكم</a>
 											<ul class="submenu">
-                                                <li><a href="#" class="body-font">الخدمات</a></li>
-                                                {% if  request.user.user_type ==  3  %}
-                                                <li><a href="#" class="body-font">طلب خدمه</a></li>
-                                                {% endif %}
-                                            {% if  request.user.user_type ==  1 or request.user.user_type ==  2  %}
-                                                <li><a href="#" class="body-font">طلبات الخدمه</a></li>
-                                                {% endif %}
-                                                <li><a href="elements.html" class="body-font">التصميمات</a></li>
+                                                <li><a href="{% url 'create-exam-page' %}" class="body-font"></a> إنشاء إمتحان</li>
+                                                <li><a href="{% url 'create-question-page' %}" class="body-font">تسجيل إجابه</a></li>
+                                                <li><a href="{% url 'create-result-page' %}" class="body-font">تسجيل إجابه</a></li>
+                                                <li><a href="{% url 'cat-list-page' %}" class="body-font">لتصنيفات</a></li>
+                                                <li><a href="{% url 'exam-list-page' %}" class="body-font">لأمتحانات</a></li>
 											</ul>
 										</li>
                                     {% endif  %}

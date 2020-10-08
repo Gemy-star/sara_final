@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} التصنيفات {% endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>التصنيفات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <section class="about-area section-padding2">
+            <div class="container">
+                  <div class="row justify-content-center">
+                    {% for cat in cats %}
+                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-9">
+                            <div class="services-caption text-center mb-30">
+                            <div class="service-icon">
+                               <p class="body-font"> {{ cat.name }}</p>
+                            </div>
+                            <div class="service-cap">
+                                <p>{{ cat.description }}</p>
+                                {% if request.user.user_type == 1 %}
+                                <a class="genric-btn danger small" href="#">مسح</a>
+                                <a class="genric-btn success small" href="#">تعديل</a>
+                                {% endif %}
+                            {% if request.user.user_type ==  2 or request.user.user_type ==  3 or request.user.user_type %}
+                                <a class="genric-btn primary small" href="{% url 'exam-user-list-page' cat.pk %}">إختيار</a>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                        {% endfor %}
+                </div>
+            </div>
+            </section>
+
+
+{% endblock body %}

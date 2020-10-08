@@ -62,3 +62,8 @@ def register(request):
 
 def user_detail(request):
     return render(request, 'users/user-detail.html')
+
+
+def detail(request, pk):
+    context = {"user": User.objects.get(pk=pk)}
+    return render(request, 'users/detail.html', context)

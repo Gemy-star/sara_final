@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} الأمتحانات {% endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>الأمتحانات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <section class="about-area section-padding2">
+            <div class="container">
+                  <div class="row justify-content-center">
+                    {% for exam in exams %}
+                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-9">
+                            <div class="services-caption text-center mb-30">
+                            <div class="service-icon">
+                               <p class="body-font"> {{ exam.name }}</p>
+                            </div>
+                            <div class="service-cap">
+                                <p>{{ exam.TotalResult }}</p>
+                                <p>{{ exam.category.name }}</p>
+                                 {% if request.user.user_type == 1 %}
+                                <a class="genric-btn danger small" href="#">مسح</a>
+                                <a class="genric-btn success small" href="#">تعديل</a>
+                                {% endif %}
+                            {% if request.user.user_type ==  2 or request.user.user_type ==  3 or request.user.user_type == 1 %}
+                                <a class="genric-btn primary small" href="{% url 'question-exam-list-page' exam.pk %}">إختيار</a>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                        {% endfor %}
+                </div>
+            </div>
+            </section>
+
+
+{% endblock body %}

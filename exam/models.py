@@ -46,20 +46,6 @@ class Question(models.Model):
         verbose_name_plural = 'Questions'
 
 
-class TrueAnswer(models.Model):
-    trueAnswer = models.CharField(max_length=255, verbose_name='الإجابة', blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    Exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    Question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.trueAnswer
-
-    class Meta:
-        verbose_name = 'TrueAnswer'
-        verbose_name_plural = 'TrueAnswers'
-
-
 class FinalResult(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -71,17 +57,3 @@ class FinalResult(models.Model):
     class Meta:
         verbose_name = 'FinalResult'
         verbose_name_plural = 'FinalResults'
-
-
-class Answer(models.Model):
-    answer = models.CharField(max_length=255, verbose_name='السؤال', blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    Exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    TrueAnswer = models.ForeignKey(TrueAnswer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.answer
-
-    class Meta:
-        verbose_name = 'Answer'
-        verbose_name_plural = 'Answers'

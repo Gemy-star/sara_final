@@ -94,17 +94,14 @@
                 </div>
                 <!-- Section caption -->
                 <div class="row justify-content-center">
-                    {% for user in users %}
+                    {% for cat in cats %}
                       <div class="col-xl-4 col-lg-4 col-md-6 col-sm-9">
                             <div class="services-caption text-center mb-30">
                             <div class="service-icon">
-                               <img src="{{ user.profile_pic.url }}" class="profile-pic"/>
-
+                               <p class="body-font"> {{ cat.name }}</p>
                             </div>
                             <div class="service-cap">
-                                <h4><a href="{% url 'user-detail' %}">{{ user.national_id }}</a></h4>
-                                <p>{{ user.first_name }}</p>
-                                <p>{{ user.address }}</p>
+                                <p>{{ cat.description }}</p>
                             </div>
                         </div>
                     </div>
@@ -154,15 +151,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-col-lg-6 col-md-6 col-sm-6">
-                        <div class="single-cat mb-110">
-                            <img src="{% static 'images/popular4.png' %}" alt="">
-                            <div class="img-cap">
-                                <h4>Downside Low House</h4>
-                                <p>Melbourn, Australia</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -190,46 +178,26 @@
                     <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
                         <!-- Section Tittle -->
                         <div class="section-tittle text-center mb-70">
-                            <span>Our exparts</span>
-                            <h2>best team we have ever had right now</h2>
+                            <span class="body-font">فريقنا</span>
+                            <h2 class="body-font">أفضل فريق لخدمتكم دائما</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <!-- single Tem -->
+                    {% for user in users %}
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                         <div class="single-team mb-30">
                             <div class="team-img">
-                                <img src="{% static 'images/team2.png' %}" alt="">
+                                <img src="{{ user.profile_pic.url }}" alt="{{ user.profile_pic.name }}">
                             </div>
                             <div class="team-caption">
-                                <h3><a href="#">Jhon Sunsa</a></h3>
-                                <span>Creative derector</span>
+                                <h3><a href="{% url 'user-detail' user.pk %}">{{ user.first_name }} {{ user.last_name }}</a></h3>
+                                <span>{{ user.address }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'images/team3.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <h3><a href="#">Smith J White</a></h3>
-                                <span>Creative derector</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'images/team1.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <h3><a href="#">Jayson Brouni</a></h3>
-                                <span>Creative derector</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Exam {%  endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2 class="body-font">الأمتحانات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title">إنشاء إمتحان</h2>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form"  enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="default-select" id="default-select">
+                                        <select name="tester">
+                                        {% for user in testers %}
+												<option value="{{user.pk }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                        {% endfor %}
+                                        </select>
+
+								</div>
+                                </div>
+
+                                     <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="result" id="result" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'الدرجه الكليه'" placeholder="الدرجه الكليه">
+                                    </div>
+                                </div>
+                            </div>
+                         <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="default-select" id="default-select">
+                                        <select name="exam">
+                                        {% for exam in exams %}
+												<option value="{{exam.pk }}">{{ exam.name }} </option>
+                                        {% endfor %}
+                                        </select>
+
+								</div>
+                                </div>
+                            <div class="form-group mt-3">
+                                <input type="submit" class="btn" value="تأكيد" name="submit"/>
+                            </div>
+                        </form>
+                    </div>
+                    {% if messages %}
+                    <div class="row">
+                         <div class="col-sm-6 md-12">
+                            {% for message in messages %}
+                                <div class="alert alert-light"><p>{{ message }}</p></div>
+                             {% endfor %}
+                         </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+{% endblock body %}

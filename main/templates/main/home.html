@@ -12,7 +12,19 @@
                                     <span style="color: white;" class="body-font">#2030 رؤية مصر</span>
 									<h1 style="color: white;" class="body-font">هدفنا<br> تطوير مصر</h1>
 									<p style="color: white;" class="body-font">نحن نسابق الزمن </p>
+                                    {% if request.user.user_type !=  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
                                         <a class="btn" href="{% url 'login'  %}">تسجيل الدخول </a>
+                                    {% endif %}
+                                   {% if request.user.user_type ==  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> التصنيفات </a>
+                                    {% endif %}
+                                    {% if request.user.user_type ==  2 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> دخول إمتحان </a>
+                                    {% endif %}
+
 								</div>
 							</div>
 						</div>
@@ -26,8 +38,18 @@
                                        <span style="color: white;" class="body-font">#2030 رؤية مصر</span>
 									<h1 style="color: white;" class="body-font">هدفنا<br> تطوير مصر</h1>
 									<p style="color: white;" class="body-font">نحن نسابق الزمن </p>
+  {% if request.user.user_type !=  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
                                         <a class="btn" href="{% url 'login'  %}">تسجيل الدخول </a>
-								</div>
+                                    {% endif %}
+                                   {% if request.user.user_type ==  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> التصنيفات </a>
+                                    {% endif %}
+                                    {% if request.user.user_type ==  2 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> دخول إمتحان </a>
+                                    {% endif %}								</div>
 							</div>
 						</div>
 					</div>
@@ -40,8 +62,18 @@
                                        <span style="color: white;" class="body-font">#2030 رؤية مصر</span>
 									<h1 style="color: white;" class="body-font">هدفنا<br> تطوير مصر</h1>
 									<p style="color: white;" class="body-font">نحن نسابق الزمن </p>
+  {% if request.user.user_type !=  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
                                         <a class="btn" href="{% url 'login'  %}">تسجيل الدخول </a>
-								</div>
+                                    {% endif %}
+                                   {% if request.user.user_type ==  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> التصنيفات </a>
+                                    {% endif %}
+                                    {% if request.user.user_type ==  2 %}
+
+                                        <a class="btn" href="{% url 'cat-list-page'  %}"> دخول إمتحان </a>
+                                    {% endif %}								</div>
 							</div>
 						</div>
 					</div>

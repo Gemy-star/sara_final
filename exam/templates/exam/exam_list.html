@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
+
 {% block title %} الأمتحانات {% endblock title %}
+
 
 
 {% block body %}
@@ -10,7 +12,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap hero-cap2 pt-70 text-center">
-                                <h2>الأمتحانات</h2>
+                                <h2>التصنيفات</h2>
                             </div>
                         </div>
                     </div>
@@ -18,33 +20,44 @@
             </div>
         </div>
 
-            <section class="about-area section-padding2">
-            <div class="container">
-                  <div class="row justify-content-center">
-                    {% for exam in exams %}
-                      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-9">
-                            <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                               <p class="body-font"> {{ exam.name }}</p>
-                            </div>
-                            <div class="service-cap">
-                                <p>{{ exam.TotalResult }}</p>
-                                <p>{{ exam.category.name }}</p>
-                                 {% if request.user.user_type == 1 %}
-                                <a class="genric-btn danger small" href="#">مسح</a>
-                                <a class="genric-btn success small" href="#">تعديل</a>
-                                {% endif %}
-                            {% if request.user.user_type ==  2 or request.user.user_type ==  3 or request.user.user_type == 1 %}
-                                <a class="genric-btn primary small" href="{% url 'question-exam-list-page' exam.pk %}">إختيار</a>
-                            {% endif %}
-                            </div>
-                        </div>
-                    </div>
 
-                        {% endfor %}
+  <section class="service-area pt-150 pb-150">
+                <div class="container">
+            <div class="section-top-border">
+					<h3 class="mb-30">Table</h3>
+					<div class="progress-table-wrap">
+						<div class="progress-table">
+							<div class="table-head">
+								<div class="serial">#</div>
+								<div class="country">الأسم</div>
+								<div class="country">الدرجه الكليه</div>
+								<div class="country">عدد الأسئله</div>
+                                <div class="country">التصنيف</div>
+
+							</div>
+							{% for question in questions %}
+                                <div class="table-row">
+								<div class="serial">{{ exam.pk }}</div>
+								<div class="country"> <a style="color: black;" href="{% url 'exam-detail' exam.pk %}">{{ exam.name }}</a></div>
+								<div class="country">{{ exam.TotalResult }}</div>
+								<div class="country">
+									{{ exam.question_number }}
+								</div>
+                                    <div class="country">{{ exam.category.name }} </div>
+
+							</div>
+                            {% endfor %}
                 </div>
+                    </div>
             </div>
-            </section>
+                </div>
+  </section>
 
+ <div class="col-8 mt-5">
+            {% if is_paginated %}
+    {% include "exam/_pagination.html" %}
+{% endif %}
+
+    </div>
 
 {% endblock body %}

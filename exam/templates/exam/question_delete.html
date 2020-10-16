@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block title %} مسح سؤال {% endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>التصنيفات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+ <div class="card  justify-content-center mx-5">
+
+         <div class="card-body justify-content-center mx-5"><p class="display-1">" هل تريد مسح {{question.question}}"?</p></div>
+
+
+			<form  method="POST" class="form-inline justify-content-center mx-5">
+
+				{% csrf_token %}
+				<a class="btn btn-warning" href="{% url 'question-list' %}">الغاء</a>
+
+				<input class="btn btn-danger" type="submit" value="مسح" name="submit">
+            </form>
+ </div>
+
+{% endblock body %}

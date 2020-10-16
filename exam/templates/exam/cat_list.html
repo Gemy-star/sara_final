@@ -30,11 +30,10 @@
                             <div class="service-cap">
                                 <p>{{ cat.description }}</p>
                                 {% if request.user.user_type == 1 %}
-                                <a class="genric-btn danger small" href="#">مسح</a>
-                                <a class="genric-btn success small" href="#">تعديل</a>
+                                <a class="genric-btn danger small" href="{% url 'cat-delete' cat.pk %}">مسح</a>
+                                <a class="genric-btn success small" href="{% url 'cat-update' cat.pk %}">تعديل</a>
                                 {% endif %}
                             {% if request.user.user_type ==  2 or request.user.user_type ==  3 or request.user.user_type %}
-                                <a class="genric-btn primary small" href="{% url 'exam-user-list-page' cat.pk %}">إختيار</a>
                             {% endif %}
                             </div>
                         </div>

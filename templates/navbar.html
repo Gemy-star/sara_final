@@ -26,31 +26,18 @@
                                         {% if request.user.user_type !=  1 and  request.user.user_type !=  2 and request.user.user_type !=  3 %}
 										<li><a href="{% url 'register' %}" class="body-font" style="color: white;" >إنشاء حساب</a> </li>
                                         {% endif %}
-                                    {% if request.user.user_type ==  2 %}
-										<li><a href="{% url 'cat-list-page' %}" class="body-font" style="color: white;">الأمتحان</a></li>
-                                        {% endif %}
+
                                      {% if request.user.user_type ==  1 or  request.user.user_type ==  2 or request.user.user_type ==  3 %}
 										<li><a href="{% url 'user-profile' %}" class="body-font" style="color: white;">الملف الشخصى</a></li>
                                         {% endif %}
-                                    {% if request.user.user_type == 1 %}
-										<li>
-											<a href="#" class="body-font" style="color: white;">أدوات التحكم</a>
-											<ul class="submenu">
-                                                <li><a href="{% url 'create-exam-page' %}" class="body-font" style="color: white;"></a> إنشاء إمتحان</li>
-                                                <li><a href="{% url 'create-question-page' %}" class="body-font" style="color: white;">تسجيل إجابه</a></li>
-                                                <li><a href="{% url 'create-result-page' %}" class="body-font" style="color: white;">تسجيل إجابه</a></li>
-                                                <li><a href="{% url 'cat-list-page' %}" class="body-font" style="color: white;">لتصنيفات</a></li>
-                                                <li><a href="{% url 'exam-list-page' %}" class="body-font" style="color: white;">لأمتحانات</a></li>
-											</ul>
-										</li>
-                                    {% endif  %}
+
                                         {% if request.user.user_type ==  1 or  request.user.user_type ==  2 or request.user.user_type ==  3 %}
 										<li><a href="{% url 'logout' %}" class="body-font" style="color: white;">خروج</a></li>
                                         {% endif %}
                                     {% if request.user.user_type is None %}
                                     <li><a href="{% url 'login' %}" class="body-font" style="color: white;">تسجيل الدخول</a></li>
                                     {% endif %}
-
+                                    </ul>
 
                                 </nav>
 							</div>

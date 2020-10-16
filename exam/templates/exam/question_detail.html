@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block title %} الأمتحانات {% endblock title %}
+
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>التصنيفات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+  <section class="service-area pt-150 pb-150">
+                <div class="container">
+            <div class="section-top-border">
+					<h3 class="mb-30">Table</h3>
+					<div class="progress-table-wrap">
+						<div class="progress-table">
+							<div class="table-head">
+								<div class="serial">#</div>
+								<div class="country">الأمتحان</div>
+								<div class="country">الدرجه</div>
+								<div class="country"> السؤال</div>
+                                <div class="country">الأختيار الأول</div>
+                                <div class="country">الأختيار الثانى</div>
+                                <div class="country">الأختيار الثالث</div>
+                                <div class="country">الأختيار الرابع</div>
+                                <div class="country">الأجابه </div>
+
+							</div>
+                                <div class="table-row">
+								<div class="serial">{{ question.pk }}</div>
+								<div class="country"> <a style="color: black;" href="{% url 'question-detail' question.pk %}">{{ question.exam.name }}</a></div>
+								<div class="country">{{ question.marks  }}</div>
+								<div class="country">
+									{{ question.question }}
+								</div>
+                                    <div class="country">{{ question.option1 }} </div>
+                                    <div class="country">{{ question.option2 }} </div>
+                                                                        <div class="country">{{ question.option3 }} </div>
+                                    <div class="country">{{ question.option4 }} </div>
+                                    <div class="country">{{ question.answer }} </div>
+
+							</div>
+                </div>
+                    </div>
+            </div>
+                </div>
+  </section>
+
+ <div class="col-8 mt-5">
+            {% if is_paginated %}
+    {% include "exam/_pagination.html" %}
+{% endif %}
+
+    </div>
+
+{% endblock body %}

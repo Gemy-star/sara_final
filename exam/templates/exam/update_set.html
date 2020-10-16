@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %} تعديل إمتحان  {% endblock title %}
+
+
+{% block body %}
+ <div class="slider-area2" style="background-image: url(../../../static/images/hero2.png);">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>التصنيفات</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<section class="about-area section-padding2">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        {% for field in form %}
+
+    <div class="col">
+       <label for="{{ field.id_for_label }}">{{field.html_name}}</label>
+    {{ field }}
+    </div>
+                    <hr>
+                {% endfor %}
+        <center>   <button type="submit" class="btn"  >تعديل</button></center>
+
+
+</form>
+</section>
+
+
+{% endblock body %}
+
+

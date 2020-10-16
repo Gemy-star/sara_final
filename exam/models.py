@@ -19,10 +19,23 @@ class Category(models.Model):
 class Exam(models.Model):
     name = models.CharField(max_length=255, verbose_name='الإسم', blank=True, null=True)
     TotalResult = models.IntegerField(blank=True, null=True)
+
+    Question_number = [
+        (20, '20'),
+        (25, '25'),
+        (30, '30'),
+        (50, '50'),
+        (100, '100'),
+
+    ]
+    question_number = models.SmallIntegerField(null=True, blank=True, choices=Question_number)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('exam-detail', args=[str(self.id)])
+
     def __str__(self):
-        return self.name
+         return str(self.name)
 
     class Meta:
         verbose_name = 'exam'
@@ -30,18 +43,22 @@ class Exam(models.Model):
 
 
 class Question(models.Model):
-    QType = [
-        (1, 'اختيار من متعدد'),
-        (2, 'مقالى')
-    ]
-    questionType = models.IntegerField(max_length=255, verbose_name='نوع السؤال', blank=True, choices=QType)
-    question = models.CharField(max_length=255, verbose_name='السؤال', blank=True, null=True)
-    answer = models.CharField(max_length=255, verbose_name='الإجابة', blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    Exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True, unique=True)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    marks = models.PositiveIntegerField(default=0)
+    question = models.TextField(max_length=500)
+    option1 = models.CharField(max_length=100)
+    option2 = models.CharField(max_length=100)
+    option3 = models.CharField(max_length=100)
+    option4 = models.CharField(max_length=100)
+    choose = [('A', 'option1'), ('B', 'option2'), ('C', 'option3'), ('D', 'option4')]
+    answer = models.CharField(max_length=1, choices=choose)
 
     def __str__(self):
-        return self.question
+        return str(self.question)
+
+    def get_absolute_url(self):
+        return reverse('question-detail', args=[str(self.id)])
 
     class Meta:
         verbose_name = 'Question'
@@ -49,16 +66,31 @@ class Question(models.Model):
 
 
 class FinalResult(models.Model):
-    result = models.IntegerField(verbose_name='النتيجه النهائيه')
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    no_ques_attempt = models.Count
+    no_ques_unattempt = models.Count
+    no_ques_right = models.Count
+    no_ques_wrong = models.Count
+    total = models.Count
 
     def __str__(self):
         return self.user.first_name
 
-    def get_absolute_url(self):
-        return reverse('exam-result-page', args=[str(self.pk)])
-
     class Meta:
         verbose_name = 'FinalResult'
         verbose_name_plural = 'FinalResults'
+
+
+class Set(models.Model):
+    set_no = models.PositiveIntegerField(default=0)
+    ques = models.ManyToManyField(Question)
+    no_of_question = models.Count(Question.question)
+    exam_name = models.ForeignKey(Exam, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.set_no)
+
+    class Meta:
+        verbose_name = 'set'
+        verbose_name_plural = 'sets'

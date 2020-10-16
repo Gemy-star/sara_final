@@ -1,111 +1,202 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DeleteView, CreateView, UpdateView, ListView
 
-from exam.models import Exam, Category, Question, FinalResult
+from . import models
 from django.contrib import messages
-from users.models import User
 
 
-def create_exam(request):
+def create_cat(request):
     if request.method == 'POST':
-        question = request.POST.get('question')
-        cat = request.POST.get('cat')
-        result = request.POST.get('total_result')
-        cat_obj = Category.objects.get(pk=cat)
-
-        exam = Exam(name=question, TotalResult=result, category=cat_obj)
-
-        if exam is not None:
-            return redirect('create-question-page')
+        cat_name = request.POST.get('cat_name')
+        cat_desc = request.POST.get('cat_desc')
+        cat = models.Category(name=cat_name, description=cat_desc)
+        if cat is not None:
+            return render(request, 'exam/cat-detail.html', context={"cat": cat})
         else:
-            messages.info(request, 'Data is not valid')
-    cats = Category.objects.all()
-    context = {"cats": cats}
-    return render(request, 'exam/create-exam.html', context)
+            messages.info(request, 'Error Occured')
+
+    return render(request, 'exam/create-cat.html')
 
 
-def create_question(request):
-    if request.method == 'POST' and request.FILES['question_photo']:
-        qtype = request.POST.get('qtype')
-        exam = request.POST.get('exams')
-        cat = request.POST.get('cat')
-        question = request.POST.get('question')
-        answer = request.POST.get('answer')
-        question_photo = request.FILES['question_photo']
-        fs = FileSystemStorage()
-        filename = fs.save(question_photo.name, question_photo)
-        cat_obj = Category.objects.get(pk=cat)
-        exam_obj = Exam.objects.get(pk=exam)
-        question_obj = Question(questionType=qtype, exam=exam_obj, category=cat_obj, question=question, answer=answer)
-        if question_obj is not None:
-            return redirect('login')
-        else:
-            messages.add_message(request, messages.error, 'Please Review Your Data ')
-    context = {"exams": Exam.objects.all(), "cats": Category.objects.all()}
-    return render(request, 'exam/create-question.html', context)
+def cat_detail(request, pk):
+    cat = models.Category.objects.get(pk=pk)
+    return render(request, 'exam/cat-detail.html', context={"cat": cat})
 
 
-def create_result(request):
+def cat_edit(request, pk):
     if request.method == 'POST':
-        result = request.POST.get('result')
-        exam = request.POST.get('exam')
-        user = request.POST.get('tester')
-        exam_obj = Exam.objects.filter(pk=exam)
-        user_obj = User.objects.filter(pk=user)
-
-        final_result = FinalResult(result=result, exam=exam_obj, user=user_obj)
-
-        if final_result is not None:
-            return redirect('home-page')
-        else:
-            messages.info(request, 'Data is not valid')
-    context = {"testers": User.objects.filter(user_type=2), "exams": Exam.objects.all()}
-    return render(request, 'exam/create_result.html', context)
+        cat_name = request.POST.get('cat_name')
+        cat_desc = request.POST.get('cat_desc')
+        models.Category.objects.filter(pk=pk).update(name=cat_name, description=cat_desc)
+        return render(request, 'exam/cat-detial.html', context={"cat": models.Category.objects.get(pk=pk)})
+    return render(request, 'exam/cat-update.html', context={"cat": models.Category.objects.get(pk=pk)})
 
 
 def cat_list(request):
-    context = {"cats": Category.objects.all()}
-    return render(request, 'exam/cat_list.html', context=context)
+    return render(request, 'exam/cat_list.html', context={"cats": models.Category.objects.all()})
 
 
-def exam_list(request):
-    context = {"exams": Exam.objects.all()}
-    return render(request, 'exam/exam_list.html', context=context)
+class DeleteCatView(DeleteView):
+    model = models.Category
+    template_name = 'exam/cat-delete.html'
+    context_object_name = 'cat'
+    success_url = reverse_lazy('home-page')
+    login_url = 'login'
 
 
-def exam_list_user(request, pk):
-    context = {"exams": Exam.objects.filter(pk=pk)}
-    return render(request, 'exam/exam_list.html', context=context)
+class CreateExamView(LoginRequiredMixin, CreateView):
+    model = models.Exam
+    template_name = 'exam/create_exam.html'
+    fields = '__all__'
+    login_url = 'login'
 
 
-def question_list_user(request, pk):
-    ans = dict()
-    result = dict()
-    degree = 0
-    exam = Exam.objects.get(pk=pk)
-    question = Question.objects.filter(Exam=exam)
-    user = request.user
-    for ques in question:
-        result[ques.question] = ques.answer
-    if request.method == "POST":
-        for q in question:
-            answers = request.POST.get('questions' + str(q.pk))
-            ans[q.question] = answers
-        for key in ans:
-            if ans[key] == result[key]:
-                degree += 10
-        r = FinalResult(user=user, exam=exam, result=degree)
-        if r is not None:
-            return render(request, 'exam/result_exam_list.html', context={"result": r})
-        else:
-            messages.info(request, 'Data is not valid')
-
-    context = {"questions": question, "exam": exam}
-    return render(request, 'exam/question_list.html', context=context)
+class UpdateExamView(LoginRequiredMixin, UpdateView):
+    model = models.Exam
+    context_object_name = 'exam'
+    template_name = 'exam/update_exam.html'
+    fields = '__all__'
+    login_url = 'login'
 
 
-def result_exam_list(request, pk):
-    final_result = FinalResult.objects.get(pk=pk)
-    content = {"result": final_result}
-    return render(request, 'exam/result_exam_list.html', context=content)
+class DeleteExamView(DeleteView):
+    model = models.Exam
+    template_name = 'exam/exam_delete.html'
+    context_object_name = 'exam'
+    success_url = reverse_lazy('home-page')
+    login_url = 'login'
+
+
+class ListExamView(LoginRequiredMixin, ListView):
+    model = models.Exam
+    template_name = 'exam/exam_list.html'
+    context_object_name = 'exams'
+    paginate_by = 5
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListExamView, self).get_context_data(**kwargs)
+        employees = self.get_queryset()
+        page = self.request.GET.get('page')
+        paginator = Paginator(employees, self.paginate_by)
+        try:
+            employees = paginator.page(page)
+        except PageNotAnInteger:
+            employees = paginator.page(1)
+        except EmptyPage:
+            employees = paginator.page(paginator.num_pages)
+        context['employees'] = employees
+        return context
+
+
+def detail_exam(request, pk):
+    return render(request, 'exam/exam_detail.html', context={"exam": models.Exam.objects.get(pk=pk)})
+
+
+class CreateQuestionView(LoginRequiredMixin, CreateView):
+    model = models.Question
+    template_name = 'exam/create_question.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class UpdateQuestionView(LoginRequiredMixin, UpdateView):
+    model = models.Question
+    context_object_name = 'question'
+    template_name = 'exam/update_question.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class DeleteQuestionView(DeleteView):
+    model = models.Question
+    template_name = 'exam/question_delete.html'
+    context_object_name = 'question'
+    success_url = reverse_lazy('home-page')
+    login_url = 'login'
+
+
+class ListQuestionView(LoginRequiredMixin, ListView):
+    model = models.Question
+    template_name = 'exam/question_list.html'
+    context_object_name = 'questions'
+    paginate_by = 5
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListQuestionView, self).get_context_data(**kwargs)
+        employees = self.get_queryset()
+        page = self.request.GET.get('page')
+        paginator = Paginator(employees, self.paginate_by)
+        try:
+            employees = paginator.page(page)
+        except PageNotAnInteger:
+            employees = paginator.page(1)
+        except EmptyPage:
+            employees = paginator.page(paginator.num_pages)
+        context['employees'] = employees
+        return context
+
+
+def detail_question(request, pk):
+    return render(request, 'exam/question_detail.html', context={"question": models.Question.objects.get(pk=pk)})
+
+
+def final_result_detail(request, pk):
+    return render(request, 'exam/final_result_detail', context={"result": models.FinalResult.objects.get(pk=pk)})
+
+
+
+
+
+class CreateSetView(LoginRequiredMixin, CreateView):
+    model = models.Set
+    template_name = 'exam/create_set.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class UpdateSetView(LoginRequiredMixin, UpdateView):
+    model = models.Set
+    context_object_name = 'set'
+    template_name = 'exam/update_set.html'
+    fields = '__all__'
+    login_url = 'login'
+
+
+class DeleteSetView(DeleteView):
+    model = models.Set
+    template_name = 'exam/set_delete.html'
+    context_object_name = 'set'
+    success_url = reverse_lazy('home-page')
+    login_url = 'login'
+
+
+class ListSetView(LoginRequiredMixin, ListView):
+    model = models.Set
+    template_name = 'exam/set_list.html'
+    context_object_name = 'sets'
+    paginate_by = 5
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListSetView, self).get_context_data(**kwargs)
+        employees = self.get_queryset()
+        page = self.request.GET.get('page')
+        paginator = Paginator(employees, self.paginate_by)
+        try:
+            employees = paginator.page(page)
+        except PageNotAnInteger:
+            employees = paginator.page(1)
+        except EmptyPage:
+            employees = paginator.page(paginator.num_pages)
+        context['employees'] = employees
+        return context
+
+
+def detail_set(request, pk):
+    return render(request, 'exam/set_detail.html', context={"set": models.Set.objects.get(pk=pk)})
